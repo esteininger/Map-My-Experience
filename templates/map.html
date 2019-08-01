@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Map My Experience</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <style>
+        /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+        #map {
+            height: 100%;
+        }
+
+        /* Optional: Makes the sample page fill the window. */
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        .rotate90 {
+            -webkit-transform: rotate(90deg);
+            -moz-transform: rotate(90deg);
+            -o-transform: rotate(90deg);
+            -ms-transform: rotate(90deg);
+            transform: rotate(90deg);
+        }
+    </style>
+</head>
+
+<body>
+    <div id="map"></div>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <script>
+        var map;
+        var infoWindows = [];
+
+        function buildFeaturesArr(resp) {
+            var features = []
+            resp.forEach(function(item) {
+                var d = {
+                    "position": new google.maps.LatLng(item.lat, item.long),
+                    "icon": 'http://maps.google.com/mapfiles/ms/micons/camera.png',
+                    "image": `/abs/path/of/images/${item.image_path}`
+                }
+                features.push(d)
+            })
+            return features
+        }
+
+        function closeAllInfoWindows() {
+            for (var i = 0; i < infoWindows.length; i++) {
+                infoWindows[i].close();
+            }
+        }
+
+
+        function initMap() {
+            $.ajax({
+                type: "GET",
+                url: `/map/get-data`,
+            }).done(function(resp) {
+
+                map = new google.maps.Map(document.getElementById('map'));
+
+                var features = buildFeaturesArr(resp)
+                var bounds = new google.maps.LatLngBounds();
+
+                for (var i = 0; i < features.length; i++) {
+                    var marker = new google.maps.Marker({
+                        position: features[i].position,
+                        icon: features[i].icon,
+                        clickable: true,
+                        map: map
+                    });
+
+                    bounds.extend(features[i].position);
+                    map.fitBounds(bounds);
+
+
+                    marker.info = new google.maps.InfoWindow({
+                        content: `<img style="width:600px;" src="${features[i].image}" />`
+                    });
+
+                    // in
+                    google.maps.event.addListener(marker, 'click', function() {
+                        this.info.open(map, this);
+                        closeAllInfoWindows();
+                        infoWindows.push(this.info);
+                    });
+                };
+            });
+
+            // Create markers.
+
+
+        }
+    </script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=API_KEY_HERE&callback=initMap">
+    </script>
+</body>
+
+</html>
