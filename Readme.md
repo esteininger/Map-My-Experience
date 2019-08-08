@@ -1,4 +1,4 @@
-# Foobar
+# Map My Experience
 
 Map My Experience is a simple app that superimposes all the photos you took during a trip onto a clickable route.
 
