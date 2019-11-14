@@ -5,7 +5,7 @@ Map My Experience is a simple app that superimposes all the photos you took duri
 ![Mockup](https://raw.githubusercontent.com/esteininger/Map-My-Experience/master/static/misc/ezgif-4-51254a8dd7f9.gif)
 
 
-[View Live Version](https://phoroll.com)
+[View Live Version](http://phoroll.com)
 
 ## Installation
 
