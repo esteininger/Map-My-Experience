@@ -5,8 +5,6 @@ Map My Experience is a simple app that superimposes all the photos you took duri
 ![Mockup](https://raw.githubusercontent.com/esteininger/Map-My-Experience/master/static/misc/ezgif-4-51254a8dd7f9.gif)
 
 
-[View Live Version](http://photoroll.virtuetheory.com)
-
 ## Installation
 
 Use the package manager [pip](https://pip.pypa.io/en/stable/) to install all dependencies.
